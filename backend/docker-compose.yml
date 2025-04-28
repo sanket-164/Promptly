@@ -3,14 +3,14 @@ version: '3.8'
 services:
   # Service for the Spring Boot Application
   app:
-    image: sanket164/prompthub:backend
-    container_name: prompthub-backend
+    image: sanket164/promptly:backend
+    container_name: promptly-backend
     ports:
       - "8080:8080"
     environment:
-      - SPRING_APPLICATION_NAME=prompthub
+      - SPRING_APPLICATION_NAME=promptly
       - SERVER_PORT=8080
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/prompthub
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/promptly
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=secret
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -20,25 +20,25 @@ services:
     depends_on:
       - mysql
     networks:
-      - prompthub-network
+      - promptly-network
 
   # Service for the MySQL Database
   mysql:
     image: mysql:latest
-    container_name: prompthub-mysql
+    container_name: promptly-mysql
     environment:
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: prompthub
+      MYSQL_DATABASE: promptly
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
-      - prompthub-network
+      - promptly-network
 
 # Define the network for communication between containers
 networks:
-  prompthub-network:
+  promptly-network:
     driver: bridge
 
 # Define the volume for persistent MySQL data

@@ -1,4 +1,4 @@
-package prompthub.prompthub.filter;
+package promptly.promptly.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import prompthub.prompthub.utils.JwtAuth;
+import promptly.promptly.utils.JwtAuth;
 
 import java.io.IOException;
 

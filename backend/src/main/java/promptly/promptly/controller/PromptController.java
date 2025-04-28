@@ -1,9 +1,9 @@
-package prompthub.prompthub.controller;
+package promptly.promptly.controller;
 
-import prompthub.prompthub.model.Prompt;
-import prompthub.prompthub.model.User;
-import prompthub.prompthub.repository.PromptRepository;
-import prompthub.prompthub.repository.UserRepository;
+import promptly.promptly.model.Prompt;
+import promptly.promptly.model.User;
+import promptly.promptly.repository.PromptRepository;
+import promptly.promptly.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import jakarta.servlet.http.HttpServletRequest;

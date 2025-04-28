@@ -1,6 +1,6 @@
-package prompthub.prompthub.repository;
+package promptly.promptly.repository;
 
-import prompthub.prompthub.model.Prompt;
+import promptly.promptly.model.Prompt;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

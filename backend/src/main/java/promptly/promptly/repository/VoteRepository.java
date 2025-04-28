@@ -1,8 +1,8 @@
-package prompthub.prompthub.repository;
+package promptly.promptly.repository;
 
-import prompthub.prompthub.model.Prompt;
-import prompthub.prompthub.model.User;
-import prompthub.prompthub.model.Vote;
+import promptly.promptly.model.Prompt;
+import promptly.promptly.model.User;
+import promptly.promptly.model.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -1,4 +1,4 @@
-package prompthub.prompthub.model;
+package promptly.promptly.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

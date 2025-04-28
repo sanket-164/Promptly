@@ -1,10 +1,10 @@
-package prompthub.prompthub.controller;
+package promptly.promptly.controller;
 
 import lombok.Data;
-import prompthub.prompthub.model.User;
-import prompthub.prompthub.repository.UserRepository;
-import prompthub.prompthub.utils.JwtAuth;
-import prompthub.prompthub.utils.PasswordUtils;
+import promptly.promptly.model.User;
+import promptly.promptly.repository.UserRepository;
+import promptly.promptly.utils.JwtAuth;
+import promptly.promptly.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

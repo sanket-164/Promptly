@@ -2,8 +2,8 @@ FROM openjdk:21
 
 WORKDIR /app
 
-COPY target/prompthub-0.0.1-SNAPSHOT.jar prompthub.jar
+COPY target/promptly-0.0.1-SNAPSHOT.jar promptly.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app/prompthub.jar"]
+ENTRYPOINT ["java", "-jar", "/app/promptly.jar"]

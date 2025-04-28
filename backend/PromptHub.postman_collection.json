@@ -1,0 +1,440 @@
+{
+	"info": {
+		"_postman_id": "0f67273a-c3c1-46a1-942e-00da3f515b54",
+		"name": "PromptHub",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32603937",
+		"_collection_link": "https://martian-spaceship-854178.postman.co/workspace/Prompt-Hub~97064117-558d-4080-853c-94605c00abee/collection/32603937-0f67273a-c3c1-46a1-942e-00da3f515b54?action=share&source=collection_link&creator=32603937"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"sanket164\",\n  \"email\": \"sanket@example.com\",\n  \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/auth/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"userToken\", pm.response.json().token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"sanket@example.com\",\n  \"password\": \"12345678\"\n}   ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/auth/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/auth/verify",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Prompt",
+					"item": [
+						{
+							"name": "Create Prompt",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"Chatbot Starter Prompt\",\n  \"content\": \"You are a helpful assistant...\",\n  \"category\": \"AI\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/prompts/create",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"prompts",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get My Prompts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/api/prompts/myprompts",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"prompts",
+										"myprompts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Prompts By Username",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/api/prompts/username/sanket164",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"prompts",
+										"username",
+										"sanket164"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Prompts By Category",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/api/prompts/category/AI",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"prompts",
+										"category",
+										"AI"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Filtered Prompts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/api/prompts/filter?categories=AI,Health,Technology,Education&page=0&size=10",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"prompts",
+										"filter"
+									],
+									"query": [
+										{
+											"key": "categories",
+											"value": "AI,Health,Technology,Education"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Prompt",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/api/prompts/delete/2",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"prompts",
+										"delete",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Vote",
+					"item": [
+						{
+							"name": "Toggle Vote",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/api/votes/toggle/1",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"votes",
+										"toggle",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Has Voted Prompt",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/api/votes/hasvoted/1",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"votes",
+										"hasvoted",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get My Voted Prompts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/api/votes/prompts",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"votes",
+										"prompts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/user/profile",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \n    \"username\": \"sanket\",\n    \"email\": \"sanket@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/user/update",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{userToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "userToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

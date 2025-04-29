@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Promptly User Test</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, textarea, button { margin: 5px 0; padding: 10px; width: 300px; }
+    .section { margin-top: 40px; }
+    pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+
+  <h2>Test Promptly User Endpoints</h2>
+
+  <div class="section">
+    <h3>Enter Bearer Token</h3>
+    <input type="text" id="tokenInput" placeholder="Bearer YOUR_TOKEN_HERE" />
+  </div>
+
+  <div class="section">
+    <h3>Get User Profile</h3>
+    <button onclick="fetchProfile()">Get Profile</button>
+    <pre id="profileOutput"></pre>
+  </div>
+
+  <div class="section">
+    <h3>Update User Profile</h3>
+    <input type="text" id="usernameInput" placeholder="New Username" />
+    <input type="email" id="emailInput" placeholder="New Email" />
+    <button onclick="updateProfile()">Update Profile</button>
+    <pre id="updateOutput"></pre>
+  </div>
+
+  <script>
+    const tokenInput = document.getElementById('tokenInput');
+
+    function getAuthHeader() {
+      const token = tokenInput.value.trim();
+      if (!token) {
+        alert("Please enter a bearer token.");
+        return null;
+      }
+      return { 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzQ1ODc2NDgwLCJleHAiOjE3NDU5NjI4ODB9.bVuoBtAt1hAk9Kjjd9ntg0Z80gHu9MROZQLvEPcc9CvHHBd2byso3jymyIKeuXFYScdL2bAktdP5XFsiZTaXGg'};
+    }
+
+    async function fetchProfile() {
+      const headers = getAuthHeader();
+      if (!headers) return;
+
+      try {
+        const res = await fetch('/api/user/profile', {
+          method: 'GET',
+          headers
+        });
+
+        const data = await res.json();
+        document.getElementById('profileOutput').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        console.error(err);
+        alert("Error fetching profile.");
+      }
+    }
+
+    async function updateProfile() {
+      const headers = getAuthHeader();
+      if (!headers) return;
+
+      const username = document.getElementById('usernameInput').value;
+      const email = document.getElementById('emailInput').value;
+
+      if (!username || !email) {
+        alert("Both fields are required.");
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/user/update', {
+          method: 'PUT',
+          headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username, email })
+        });
+
+        const data = await res.json();
+        document.getElementById('updateOutput').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        console.error(err);
+        alert("Error updating profile.");
+      }
+    }
+  </script>
+
+</body>
+</html>

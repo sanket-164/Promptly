@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promptly - Test API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        form, button {
+            margin-bottom: 20px;
+        }
+        input, select, textarea {
+            display: block;
+            margin: 5px 0;
+            padding: 8px;
+            width: 300px;
+        }
+        .response {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Promptly API Tester</h1>
+
+    <!-- Create Prompt -->
+    <h2>Create Prompt</h2>
+    <form id="create-prompt-form">
+        <input type="hidden" id="userId" value="1" placeholder="User ID">
+        <input type="text" id="title" placeholder="Title">
+        <textarea id="content" placeholder="Content"></textarea>
+        <select id="category">
+            <option value="General">General</option>
+            <option value="Technology">Technology</option>
+            <option value="Science">Science</option>
+            <option value="Art">Art</option>
+        </select>
+        <button type="submit">Create Prompt</button>
+    </form>
+    <div class="response" id="create-prompt-response"></div>
+
+    <!-- Filter Prompts by Category -->
+    <h2>Filter Prompts by Category</h2>
+    <form id="filter-prompts-form">
+        <select id="categories" multiple>
+            <option value="General">General</option>
+            <option value="Technology">Technology</option>
+            <option value="Science">Science</option>
+            <option value="Art">Art</option>
+        </select>
+        <input type="number" id="page" placeholder="Page" value="0">
+        <input type="number" id="size" placeholder="Size" value="10">
+        <button type="submit">Filter Prompts</button>
+    </form>
+    <div class="response" id="filter-prompts-response"></div>
+
+    <!-- Get My Prompts -->
+    <h2>Get My Prompts</h2>
+    <button id="get-my-prompts-button">Get My Prompts</button>
+    <div class="response" id="my-prompts-response"></div>
+
+    <!-- Get Prompts by Username -->
+    <h2>Get Prompts by Username</h2>
+    <form id="get-prompts-by-username-form">
+        <input type="text" id="username" placeholder="Username">
+        <button type="submit">Get Prompts</button>
+    </form>
+    <div class="response" id="prompts-by-username-response"></div>
+
+    <!-- Delete Prompt -->
+    <h2>Delete Prompt</h2>
+    <form id="delete-prompt-form">
+        <input type="number" id="prompt-id" placeholder="Prompt ID">
+        <button type="submit">Delete Prompt</button>
+    </form>
+    <div class="response" id="delete-prompt-response"></div>
+
+    <script>
+        const BASE_URL = "http://localhost:8080/api/prompts";
+
+        // Helper function to display responses
+        function displayResponse(responseElement, data) {
+            responseElement.textContent = JSON.stringify(data, null, 2);
+        }
+
+        // Create Prompt
+        document.getElementById("create-prompt-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const userId = document.getElementById("userId").value;
+            const title = document.getElementById("title").value;
+            const content = document.getElementById("content").value;
+            const category = document.getElementById("category").value;
+
+            const response = await fetch(`${BASE_URL}/create`, {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzQ1ODc2NDgwLCJleHAiOjE3NDU5NjI4ODB9.bVuoBtAt1hAk9Kjjd9ntg0Z80gHu9MROZQLvEPcc9CvHHBd2byso3jymyIKeuXFYScdL2bAktdP5XFsiZTaXGg`
+                },
+                body: JSON.stringify({ title, content, category }),
+            });
+
+            const data = await response.json();
+            displayResponse(document.getElementById("create-prompt-response"), data);
+        });
+
+        // Filter Prompts by Category
+        document.getElementById("filter-prompts-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const categories = Array.from(document.getElementById("categories").selectedOptions).map(option => option.value);
+            const page = document.getElementById("page").value;
+            const size = document.getElementById("size").value;
+
+            let url = `${BASE_URL}/filter?page=${page}&size=${size}`;
+            if (categories.length > 0) {
+                url += `&categories=${categories.join(",")}`;
+            }
+
+            const response = await fetch(url,{
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzQ1ODc2NDgwLCJleHAiOjE3NDU5NjI4ODB9.bVuoBtAt1hAk9Kjjd9ntg0Z80gHu9MROZQLvEPcc9CvHHBd2byso3jymyIKeuXFYScdL2bAktdP5XFsiZTaXGg`
+                }
+            }
+            );
+            const data = await response.json();
+            displayResponse(document.getElementById("filter-prompts-response"), data);
+        });
+
+        // Get My Prompts
+        document.getElementById("get-my-prompts-button").addEventListener("click", async () => {
+            const response = await fetch(`${BASE_URL}/myprompts`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzQ1ODc2NDgwLCJleHAiOjE3NDU5NjI4ODB9.bVuoBtAt1hAk9Kjjd9ntg0Z80gHu9MROZQLvEPcc9CvHHBd2byso3jymyIKeuXFYScdL2bAktdP5XFsiZTaXGg`
+                }, // Simulate user ID in request header
+            });
+
+            const data = await response.json();
+            displayResponse(document.getElementById("my-prompts-response"), data);
+        });
+
+        // Get Prompts by Username
+        document.getElementById("get-prompts-by-username-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = document.getElementById("username").value;
+
+            const response = await fetch(`${BASE_URL}/username/${username}`, {
+                headers: {
+                    "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzQ1ODc2NDgwLCJleHAiOjE3NDU5NjI4ODB9.bVuoBtAt1hAk9Kjjd9ntg0Z80gHu9MROZQLvEPcc9CvHHBd2byso3jymyIKeuXFYScdL2bAktdP5XFsiZTaXGg`
+                },
+            });
+            const data = await response.json();
+            displayResponse(document.getElementById("prompts-by-username-response"), data);
+        });
+
+        // Delete Prompt
+        document.getElementById("delete-prompt-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const promptId = document.getElementById("prompt-id").value;
+
+            const response = await fetch(`${BASE_URL}/delete/${promptId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzQ1ODc2NDgwLCJleHAiOjE3NDU5NjI4ODB9.bVuoBtAt1hAk9Kjjd9ntg0Z80gHu9MROZQLvEPcc9CvHHBd2byso3jymyIKeuXFYScdL2bAktdP5XFsiZTaXGg`
+                }, // Simulate user ID in request header
+            });
+
+            const data = await response.json();
+            displayResponse(document.getElementById("delete-prompt-response"), data);
+        });
+    </script>
+</body>
+</html>

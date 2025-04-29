@@ -1,13 +1,14 @@
-package prompthub.prompthub;
+package promptly.promptly;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PrompthubApplicationTests {
-
-	@Test
+public class PromptlyApplicationTests {
+	
+    @Test
 	void contextLoads() {
+
 	}
 
 }

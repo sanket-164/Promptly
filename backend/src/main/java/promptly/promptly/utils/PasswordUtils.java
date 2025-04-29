@@ -1,4 +1,4 @@
-package prompthub.prompthub.utils;
+package promptly.promptly.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

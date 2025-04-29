@@ -1,13 +1,13 @@
-package prompthub.prompthub;
+package promptly.promptly;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PrompthubApplication {
+public class PromptlyApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PrompthubApplication.class, args);
+		SpringApplication.run(PromptlyApplication.class, args);
 	}
 
 }

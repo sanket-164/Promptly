@@ -1,11 +1,11 @@
-package prompthub.prompthub.controller;
+package promptly.promptly.controller;
 
-import prompthub.prompthub.model.Prompt;
-import prompthub.prompthub.model.User;
-import prompthub.prompthub.model.Vote;
-import prompthub.prompthub.repository.PromptRepository;
-import prompthub.prompthub.repository.UserRepository;
-import prompthub.prompthub.repository.VoteRepository;
+import promptly.promptly.model.Prompt;
+import promptly.promptly.model.User;
+import promptly.promptly.model.Vote;
+import promptly.promptly.repository.PromptRepository;
+import promptly.promptly.repository.UserRepository;
+import promptly.promptly.repository.VoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/votes")
 @RequiredArgsConstructor
 public class VoteController {

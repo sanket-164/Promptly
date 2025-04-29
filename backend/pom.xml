@@ -8,11 +8,11 @@
 		<version>3.4.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>prompthub</groupId>
-	<artifactId>prompthub</artifactId>
+	<groupId>promptly</groupId>
+	<artifactId>promptly</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>prompthub</name>
+	<name>Promptly</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

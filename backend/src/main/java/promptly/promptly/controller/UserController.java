@@ -1,7 +1,7 @@
-package prompthub.prompthub.controller;
+package promptly.promptly.controller;
 
-import prompthub.prompthub.model.User;
-import prompthub.prompthub.repository.UserRepository;
+import promptly.promptly.model.User;
+import promptly.promptly.repository.UserRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auth API Tester</title>
+  <style>
+    body { font-family: Arial; margin: 2em; background-color: #f9f9f9; }
+    h2 { color: #333; }
+    label { display: block; margin-top: 10px; }
+    input { width: 300px; padding: 5px; margin-bottom: 10px; }
+    button { padding: 10px 15px; margin-top: 10px; }
+    pre { background-color: #eee; padding: 10px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+
+  <h2>Register User</h2>
+  <label>Username:</label>
+  <input type="text" id="reg-username" placeholder="Enter username" />
+  <label>Email:</label>
+  <input type="email" id="reg-email" placeholder="Enter email" />
+  <label>Password:</label>
+  <input type="password" id="reg-password" placeholder="Enter password" />
+  <button onclick="registerUser()">Register</button>
+
+  <hr />
+
+  <h2>Login User</h2>
+  <label>Email:</label>
+  <input type="email" id="login-email" placeholder="Enter email" />
+  <label>Password:</label>
+  <input type="password" id="login-password" placeholder="Enter password" />
+  <button onclick="loginUser()">Login</button>
+
+  <hr />
+
+  <h2>Verify Token (Protected Route)</h2>
+  <label>Authorization Bearer Token:</label>
+  <input type="text" id="token-input" placeholder="Bearer your_token_here" />
+  <button onclick="verifyToken()">Verify Token</button>
+
+  <hr />
+
+  <h3>Response:</h3>
+  <pre id="response-output">Waiting for response...</pre>
+
+  <script>
+    const BASE_URL = "http://localhost:8080/api/auth"; // Change port if needed
+
+    function updateResponse(message) {
+      document.getElementById("response-output").textContent = JSON.stringify(message, null, 2);
+    }
+
+    async function registerUser() {
+      const user = {
+        username: document.getElementById("reg-username").value,
+        email: document.getElementById("reg-email").value,
+        password: document.getElementById("reg-password").value
+      };
+
+      try {
+        const res = await fetch(`${BASE_URL}/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(user)
+        });
+        const data = await res.json();
+        updateResponse(data);
+      } catch (err) {
+        updateResponse({ error: "Failed to register", details: err });
+      }
+    }
+
+    async function loginUser() {
+      const login = {
+        email: document.getElementById("login-email").value,
+        password: document.getElementById("login-password").value
+      };
+
+      try {
+        const res = await fetch(`${BASE_URL}/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(login)
+        });
+        const data = await res.json();
+        updateResponse(data);
+      } catch (err) {
+        updateResponse({ error: "Login failed", details: err });
+      }
+    }
+
+    async function verifyToken() {
+      const token = document.getElementById("token-input").value;
+
+      try {
+        const res = await fetch(`${BASE_URL}/verify`, {
+          method: "GET",
+          headers: {
+            "Authorization": token
+          }
+        });
+        const data = await res.json();
+        updateResponse(data);
+      } catch (err) {
+        updateResponse({ error: "Token verification failed", details: err });
+      }
+    }
+  </script>
+</body>
+</html>

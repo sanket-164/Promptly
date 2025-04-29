@@ -1,10 +1,10 @@
-package prompthub.prompthub.controller;
+package promptly.promptly.controller;
 
 import lombok.Data;
-import prompthub.prompthub.model.User;
-import prompthub.prompthub.repository.UserRepository;
-import prompthub.prompthub.utils.JwtAuth;
-import prompthub.prompthub.utils.PasswordUtils;
+import promptly.promptly.model.User;
+import promptly.promptly.repository.UserRepository;
+import promptly.promptly.utils.JwtAuth;
+import promptly.promptly.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
@@ -110,7 +111,12 @@ public class AuthController {
         Map<String, Object> response = new HashMap<>();
 
         // Step 1: Extract the token from the "Bearer" prefix
-        String token = extractTokenFromBearer(bearerToken);
+        String token = null;
+
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            token = bearerToken.substring(7); // Remove "Bearer " prefix
+        }
+        
         if (token == null) {
             response.put("verified", false);
             response.put("error", "Token is missing!");
@@ -140,17 +146,8 @@ public class AuthController {
             return ResponseEntity.status(404).body(response);
         }
 
-        // Step 5: Return success response with user_id
         response.put("verified", true);
         response.put("message", "Token verified successfully.");
         return ResponseEntity.ok(response);
-    }
-
-    // Helper method to extract the token from the "Bearer" prefix
-    private String extractTokenFromBearer(String bearerToken) {
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7); // Remove "Bearer " prefix
-        }
-        return null;
     }
 }

@@ -1,6 +1,6 @@
-package prompthub.prompthub.repository;
+package promptly.promptly.repository;
 
-import prompthub.prompthub.model.User;
+import promptly.promptly.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

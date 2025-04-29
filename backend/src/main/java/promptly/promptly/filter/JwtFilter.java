@@ -1,4 +1,4 @@
-package prompthub.prompthub.filter;
+package promptly.promptly.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import prompthub.prompthub.utils.JwtAuth;
+import promptly.promptly.utils.JwtAuth;
 
 import java.io.IOException;
 
@@ -22,9 +22,18 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
             final String authorizationHeader = request.getHeader("Authorization");
+            
+            if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.setHeader("Access-Control-Allow-Origin", "*");
+                response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+                response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+                return;
+            }
+
             String path = request.getRequestURI();
             
-            if (path.equals("/api/auth/register") || path.equals("/api/auth/login")){
+            if (path.startsWith("/api/auth/") || path.endsWith(".html")) {
                 chain.doFilter(request, response);
                 return;
             }
@@ -48,10 +57,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
         } catch (ServletException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setHeader("Access-Control-Allow-Origin", "*"); // or your frontend origin
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-
-            response.getWriter().write("{\n\t\"error\": \"" + e.getMessage() + "\"}");
+            response.getWriter().write("{\n\t\"error\": \"" + e.getMessage() + "\"\n}");
+            return;
         }
     }
 }

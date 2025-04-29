@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/prompts")
 @RequiredArgsConstructor
 public class PromptController {
@@ -28,13 +29,12 @@ public class PromptController {
 
     @lombok.Data
     static class CreatePromptRequest {
-        private Integer userId;
         private String title;
         private String content;
         private String category;
     }
 
-     @GetMapping("/filter")
+    @GetMapping("/filter")
     public ResponseEntity<?> getPromptsByCategory(HttpServletRequest request,
             @RequestParam(required = false) List<String> categories,
             @RequestParam(defaultValue = "0") int page,

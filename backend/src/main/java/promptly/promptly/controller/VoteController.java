@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/votes")
 @RequiredArgsConstructor
 public class VoteController {

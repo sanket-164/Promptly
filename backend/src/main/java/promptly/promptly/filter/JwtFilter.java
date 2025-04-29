@@ -33,7 +33,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             String path = request.getRequestURI();
             
-            if (path.startsWith("/api/auth/")) {
+            if (path.startsWith("/api/auth/") || path.endsWith(".html")) {
                 chain.doFilter(request, response);
                 return;
             }
@@ -62,7 +62,7 @@ public class JwtFilter extends OncePerRequestFilter {
             response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write("{\n\t\"error\": \"" + e.getMessage() + "\"}");
+            response.getWriter().write("{\n\t\"error\": \"" + e.getMessage() + "\"\n}");
             return;
         }
     }

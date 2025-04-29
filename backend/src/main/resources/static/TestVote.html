@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Test Vote Controller</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, button { margin: 5px 0; padding: 10px; width: 300px; display: block; }
+    .section { margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; }
+    pre { background: #f4f4f4; padding: 10px; overflow-x: auto; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+
+  <h2>Vote Controller Tester</h2>
+
+  <div class="section">
+    <h3>Enter Bearer Token</h3>
+    <input type="text" id="tokenInput" placeholder="Bearer YOUR_TOKEN_HERE" />
+  </div>
+
+  <div class="section">
+    <h3>Toggle Vote for Prompt (Upvote)</h3>
+    <input type="number" id="promptIdInput" placeholder="Prompt ID" />
+    <button onclick="toggleVote()">Toggle Vote</button>
+    <pre id="toggleOutput"></pre>
+  </div>
+
+  <div class="section">
+    <h3>Check If User Has Voted on Prompt</h3>
+    <input type="number" id="checkPromptIdInput" placeholder="Prompt ID" />
+    <button onclick="checkHasVoted()">Check Vote Status</button>
+    <pre id="checkOutput"></pre>
+  </div>
+
+  <div class="section">
+    <h3>Get All Prompts User Has Voted On</h3>
+    <button onclick="getVotedPrompts()">Fetch Voted Prompts</button>
+    <pre id="votedPromptsOutput"></pre>
+  </div>
+
+  <script>
+    const tokenInput = document.getElementById('tokenInput');
+
+    function getAuthHeader() {
+      const token = tokenInput.value.trim();
+      if (!token) {
+        alert("Please enter a bearer token.");
+        return null;
+      }
+      return { 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzQ1ODc2NDgwLCJleHAiOjE3NDU5NjI4ODB9.bVuoBtAt1hAk9Kjjd9ntg0Z80gHu9MROZQLvEPcc9CvHHBd2byso3jymyIKeuXFYScdL2bAktdP5XFsiZTaXGg' };
+    }
+
+    async function toggleVote() {
+      const headers = getAuthHeader();
+      if (!headers) return;
+
+      const promptId = document.getElementById('promptIdInput').value;
+      if (!promptId) {
+        alert("Please enter a valid Prompt ID.");
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/votes/toggle/${promptId}`, {
+          method: 'POST',
+          headers
+        });
+
+        const data = await res.json();
+        document.getElementById('toggleOutput').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        console.error(err);
+        alert("Error toggling vote.");
+      }
+    }
+
+    async function checkHasVoted() {
+      const headers = getAuthHeader();
+      if (!headers) return;
+
+      const promptId = document.getElementById('checkPromptIdInput').value;
+      if (!promptId) {
+        alert("Please enter a valid Prompt ID.");
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/votes/hasvoted/${promptId}`, {
+          method: 'GET',
+          headers
+        });
+
+        const data = await res.json();
+        document.getElementById('checkOutput').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        console.error(err);
+        alert("Error checking vote status.");
+      }
+    }
+
+    async function getVotedPrompts() {
+      const headers = getAuthHeader();
+      if (!headers) return;
+
+      try {
+        const res = await fetch('/api/votes/prompts', {
+          method: 'GET',
+          headers
+        });
+
+        const data = await res.json();
+        document.getElementById('votedPromptsOutput').textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        console.error(err);
+        alert("Error fetching voted prompts.");
+      }
+    }
+  </script>
+
+</body>
+</html>

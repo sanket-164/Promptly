@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>API Test Suite</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    .button-container button {
+      padding: 15px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .auth { background-color: #007bff; color: white; }
+    .prompt { background-color: #28a745; color: white; }
+    .profile { background-color: #ffc107; color: black; }
+    .vote { background-color: #dc3545; color: white; }
+    .button-container button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Promptly API Tester</h1>
+  <p>Select an API module to test:</p>
+
+  <div class="button-container">
+    <button class="auth" onclick="location.href='TestAuth.html'">Test Auth</button>
+    <button class="prompt" onclick="location.href='TestPrompt.html'">Test Prompts</button>
+    <button class="profile" onclick="location.href='TestProfile.html'">Test Profile</button>
+    <button class="vote" onclick="location.href='TestVote.html'">Test Votes</button>
+  </div>
+
+</body>
+</html>

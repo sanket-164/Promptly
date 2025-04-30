@@ -2,16 +2,8 @@
 
 import EditProfileModal from "@/components/modal/EditProfileModal";
 import useLoader from "@/hooks/useLoader";
-import useModal from "@/hooks/useModal";
 import { ProfileGetter } from "@/lib/interactions/dataGetters";
-import {
-  Button,
-  Card,
-  Container,
-  Heading,
-  Separator,
-  Table,
-} from "@chakra-ui/react";
+import { Card, Container, Heading, Separator, Table } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import PromptListingPlace from "./[username]/PromptListingPlace";
@@ -21,7 +13,6 @@ const ProfilePage = () => {
     queryFn: ProfileGetter.getProfile,
     queryKey: ["profile"],
   });
-  const { openModal } = useModal();
   const { setLoading } = useLoader();
   useEffect(() => {
     setLoading(isLoading);
@@ -67,14 +58,14 @@ const ProfilePage = () => {
                 </Table.Root>
               </Card.Description>
             </Card.Body>
-            <Card.Footer justifyContent="flex-end">
+            {/* <Card.Footer justifyContent="flex-end">
               <Button
                 variant="outline"
                 onClick={() => openModal("edit-profile-modal")}
               >
                 Edit
               </Button>
-            </Card.Footer>
+            </Card.Footer> */}
           </Card.Root>
         </div>
 

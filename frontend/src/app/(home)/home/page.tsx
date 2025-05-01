@@ -77,7 +77,7 @@ const HomePage = () => {
           <HStack>
             <Field.Root invalid={!!errors.search}>
               <Input
-                placeholder="ChatGPT"
+                placeholder="Search for category (Text)"
                 {...register("search", {
                   required: {
                     value: true,

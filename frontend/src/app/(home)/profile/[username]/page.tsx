@@ -8,8 +8,8 @@ type Props = {
   }>;
 };
 
-const UserProfile = async (prop: Promise<Props>) => {
-  const username = (await (await prop).params).username;
+const UserProfile = async (prop: Props) => {
+  const username = (await prop.params).username;
   return (
     <Container py={10}>
       <Heading fontSize="2xl" className="flex items-center gap-3">
